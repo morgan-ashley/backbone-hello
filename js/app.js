@@ -3,7 +3,7 @@
 	//The model acts as our JS object
 	var Words = Backbone.Model.extend({
 		defaults: {
-			word1: 'hello',
+			word1: 'Hello',
 			word2: 'there!'
 		},
 	});
@@ -22,7 +22,7 @@
 			'click button#add': 'addHello'
 		},
 
-		//where binding happen, excluding events
+		//Where binding happen, excluding events
 		initialize: function(){
 			_.bindAll(this, 'render', 'addHello', 'appendHellos');
 
