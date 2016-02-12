@@ -4,7 +4,7 @@
 	var Words = Backbone.Model.extend({
 		defaults: {
 			word1: 'Hello',
-			word2: 'there!'
+			word2: 'there! '
 		},
 	});
 
@@ -19,15 +19,17 @@
 
 		//Where DOM events are bound to the View methods
 		events: {
-			'click button#add': 'addHello'
+			'click button#add': 'addHello',
+			'click button#remove': 'deleteHello'
 		},
 
 		//Where binding happen, excluding events
 		initialize: function(){
-			_.bindAll(this, 'render', 'addHello', 'appendHellos');
+			_.bindAll(this, 'render', 'addHello', 'deleteHello', 'appendHellos');
 
 			this.collection = new WordList();
-			this.collection.bind('add', this.appendHellos) //collection event binder
+			this.collection.bind('add', this.appendHellos); //collection event binder
+			this.collection.bind('remove', this.deleteHello)
 			this.counter = 0;
 			this.render();
 		},
@@ -37,6 +39,7 @@
 
 			var self = this;
 			$(this.el).append("<button id='add'>Add a Hello</button>");
+			$(this.el).append("<button id='remove'>Delete a Hello</button>");
 			$(this.el).append("<ul></ul>");
 			_(this.collection.models).each(function(word){
 				self.appendHellos(word);
@@ -53,6 +56,11 @@
 			});
 
 			this.collection.add(words);
+		},
+
+		deleteHello: function(){
+			this.counter--;
+			$('li:last').remove();
 		},
  		
  		//Triggeres by collection event 'add', and handles visual update
